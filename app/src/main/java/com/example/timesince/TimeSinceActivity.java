@@ -67,6 +67,7 @@ public class TimeSinceActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     save_current_to_internal_storage(getApplicationContext());
+                                    Toast.makeText(getBaseContext(), "Reset", Toast.LENGTH_SHORT).show();
                                     display_millis();
                                 }
                             });
@@ -133,7 +134,6 @@ public class TimeSinceActivity extends AppCompatActivity {
         set_millis_to_internal_storage();
         input1.setText("Clean since " + convert_milli_to_date(millis_to_display));
         tv_result.setText(convert_milli_to_date(millis_to_display));
-        Toast.makeText(getBaseContext(), "date displayed", Toast.LENGTH_SHORT).show();
     }
 
 //    public void writeFileOnInternalStorage(Context mcoContext, String sFileName, String sBody){
