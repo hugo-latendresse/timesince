@@ -32,6 +32,7 @@ public class TimeSinceActivity extends AppCompatActivity {
         bt_calculate.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            setTodaysDate();
             makeCalculations();
         }
     });
@@ -40,20 +41,17 @@ public class TimeSinceActivity extends AppCompatActivity {
     private void makeCalculations() {
         double n2 = Double.valueOf(input2.getText().toString());
         double n3 = Double.valueOf(input3.getText().toString());
-
-        // Do your calculation here.
-        // I'm assuming you have inserted the result on a variable called 'result'. Like: double result
         double result = n2-n3;
         tv_result.setText("The result is: " + result);
     }
-
 
 
     private void setTodaysDate() {
         SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm");
         Date date = new Date(System.currentTimeMillis());
         String out;
-        out = "Produced" + (formatter).format(date);
+//        out = "Produced" + (formatter).format(date);
+        out = "2 janvier";
         input1.setText("Clean since: "+ out);
 //        System.out.println(formatter.format(date));
     }
