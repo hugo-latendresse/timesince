@@ -25,14 +25,15 @@ public class TimeSinceActivity extends AppCompatActivity {
         input1 = (TextView) findViewById(R.id.et_input1);
         input2 = (EditText) findViewById(R.id.et_input2);
         input3 = (EditText) findViewById(R.id.et_input3);
-    Button bt_calculate = (Button) findViewById(R.id.bt_calculate);
+        Button bt_calculate = (Button) findViewById(R.id.bt_calculate);
 
-    tv_result = (TextView) findViewById(R.id.tv_result);
+        tv_result = (TextView) findViewById(R.id.tv_result);
+
+        setTodaysDate();
 
         bt_calculate.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            setTodaysDate();
             makeCalculations();
         }
     });
@@ -50,8 +51,8 @@ public class TimeSinceActivity extends AppCompatActivity {
         SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm");
         Date date = new Date(System.currentTimeMillis());
         String out;
-//        out = "Produced" + (formatter).format(date);
-        out = "2 janvier";
+        out = "Produced" + (formatter).format(date);
+//        out = "2 janvier";
         input1.setText("Clean since: "+ out);
 //        System.out.println(formatter.format(date));
     }
