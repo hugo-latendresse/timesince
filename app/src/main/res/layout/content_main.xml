@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -17,4 +17,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:defaultNavHost="true"
             app:navGraph="@navigation/nav_graph"/>
+    <TextView
+            android:text="@string/welcome_text"
+            android:layout_width="119dp"
+            android:layout_height="82dp" android:id="@+id/textView" tools:layout_editor_absoluteY="405dp"
+            tools:layout_editor_absoluteX="46dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
