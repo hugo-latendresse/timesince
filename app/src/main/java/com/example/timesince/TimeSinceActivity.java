@@ -47,28 +47,25 @@ public class TimeSinceActivity extends AppCompatActivity {
         display_millis();
 
 
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
-                if (!isFinishing()){
-                    new AlertDialog.Builder(TimeSinceActivity.this)
-                            .setTitle("Your Alert")
-                            .setMessage("Your Message")
-                            .setCancelable(false)
-                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // Whatever...
-                                }
-                            }).show();
+                if (!isFinishing()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(TimeSinceActivity.this);
+                    builder.setTitle("Your Alert");
+                    builder.setMessage("Your Message");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Whatever...
+                        }
+                    });
+                    builder.show();
                 }
             }
         });
-
-
-
 
 
         bt_calculate.setOnClickListener(new View.OnClickListener() {
