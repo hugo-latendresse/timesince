@@ -11,10 +11,8 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -26,6 +24,7 @@ public class TimeSinceActivity extends AppCompatActivity {
     private EditText input2;
     private EditText input3;
     private TextView tv_result;
+    private long millis_to_display;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -41,25 +40,17 @@ public class TimeSinceActivity extends AppCompatActivity {
 
         tv_result = (TextView) findViewById(R.id.tv_result);
 
-        setTodaysDate();
+        display_millis();
 
         bt_calculate.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-//            makeCalculations();
-            save_to_internal_storage(getApplicationContext());
-            read_from_internal_storage();
+            save_current_to_internal_storage(getApplicationContext());
+            display_millis();
         }
 
     });
 }
-
-    private void makeCalculations() {
-        double n2 = Double.valueOf(input2.getText().toString());
-        double n3 = Double.valueOf(input3.getText().toString());
-        double result = n2-n3;
-        tv_result.setText("The result is: " + result);
-    }
 
     private long return_todays_milliseconds(){
         return System.currentTimeMillis();
@@ -71,31 +62,8 @@ public class TimeSinceActivity extends AppCompatActivity {
         return (formatter).format(date);
     }
 
-    private void setTodaysDate() {
-        input1.setText("Clean since: "+ convert_milli_to_date(return_todays_milliseconds()));
-    }
 
-
-
-
-
-
-//    private void resetDate(){
-//        homeScoreBytes[0] = (byte) homeScore;
-//        homeScoreBytes[1] = (byte) (homeScore >> 8);  //you can probably skip these two
-//        homeScoreBytes[2] = (byte) (homeScore >> 16); //lines, because I've never seen a
-//        //basketball score above 128, it's
-//        //such a rare occurance.
-//
-//        writeFileOnInternalStorage();
-//
-//        FileOutputStream outputStream = getApplicationContext().openFileOutput(FILENAME, Context.MODE_PRIVATE);
-//        outputStream.write(homeScoreBytes);
-//        outputStream.close();
-//    }
-
-
-    private void save_to_internal_storage(Context ctx){
+    private void save_current_to_internal_storage(Context ctx){
         String data="my info to save";
         try {
 
@@ -110,7 +78,7 @@ public class TimeSinceActivity extends AppCompatActivity {
         }
     }
 
-    private void read_from_internal_storage(){
+    private void set_millis_to_internal_storage(){
         try {
             FileInputStream fin = openFileInput("somefile.txt");
             int c;
@@ -119,11 +87,17 @@ public class TimeSinceActivity extends AppCompatActivity {
             while( (c = fin.read()) != -1){
                 temp = temp + Character.toString((char)c);
             }
-            tv_result.setText(temp);
-            Toast.makeText(getBaseContext(), "file read", Toast.LENGTH_SHORT).show();
+            millis_to_display = Long.parseLong(temp);
         }
         catch(Exception e){
+            millis_to_display = return_todays_milliseconds();
         }
+    }
+
+    private void display_millis(){
+        set_millis_to_internal_storage();
+        tv_result.setText(convert_milli_to_date(millis_to_display));
+        Toast.makeText(getBaseContext(), "date displayed", Toast.LENGTH_SHORT).show();
     }
 
 //    public void writeFileOnInternalStorage(Context mcoContext, String sFileName, String sBody){
