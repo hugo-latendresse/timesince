@@ -25,8 +25,6 @@ import static java.lang.String.valueOf;
 
 public class TimeSinceActivity extends AppCompatActivity {
     private TextView input1;
-    private EditText input2;
-    private EditText input3;
     private TextView tv_result;
     private long millis_to_display;
     private String MILLIS_FILENAME = "millis_storage.txt";
@@ -40,9 +38,7 @@ public class TimeSinceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, 1);
 
-        input1 = (TextView) findViewById(R.id.et_input1);
-        input2 = (EditText) findViewById(R.id.et_input2);
-        input3 = (EditText) findViewById(R.id.et_input3);
+        input1 = (TextView) findViewById(R.id.top_message);
         Button bt_calculate = (Button) findViewById(R.id.bt_calculate);
 
         tv_result = (TextView) findViewById(R.id.tv_result);
