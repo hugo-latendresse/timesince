@@ -1,6 +1,7 @@
 package com.example.timesince;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.FileInputStream;
@@ -26,6 +28,7 @@ public class TimeSinceActivity extends AppCompatActivity {
     private EditText input3;
     private TextView tv_result;
     private long millis_to_display;
+    private String MILLIS_FILENAME = "millis_storage.txt";
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -44,16 +47,36 @@ public class TimeSinceActivity extends AppCompatActivity {
         display_millis();
 
         bt_calculate.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
             save_current_to_internal_storage(getApplicationContext());
             display_millis();
-        }
+//            @Override
+//            public void onClick(View view) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+////            builder.setTitle(R.string.app_name);
+//                builder.setMessage("Do you really want to reset?");
+////            builder.setIcon(R.drawable.ic_launcher);
+//                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.dismiss();
+//                        save_current_to_internal_storage(getApplicationContext());
+//                        display_millis();
+//
+//                    }
+//                });
+//                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//                AlertDialog alert = builder.create();
+//                alert.show();
+//            }
 
-    });
-}
+        });
+    }
 
-    private long return_todays_milliseconds(){
+
+    private long return_todays_milliseconds() {
         return System.currentTimeMillis();
     }
 
@@ -68,7 +91,7 @@ public class TimeSinceActivity extends AppCompatActivity {
         String data = valueOf(return_todays_milliseconds());
         try {
 
-            FileOutputStream fOut = openFileOutput("somefile.txt", ctx.MODE_PRIVATE);
+            FileOutputStream fOut = openFileOutput(MILLIS_FILENAME, ctx.MODE_PRIVATE);
             fOut.write(data.getBytes());
             fOut.close();
 
@@ -81,7 +104,7 @@ public class TimeSinceActivity extends AppCompatActivity {
 
     private void set_millis_to_internal_storage(){
         try {
-            FileInputStream fin = openFileInput("somefile.txt");
+            FileInputStream fin = openFileInput(MILLIS_FILENAME);
             int c;
             String temp="";
 
