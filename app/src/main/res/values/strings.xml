@@ -7,7 +7,7 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Time Since : derniere fois</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="hello_first_fragment">Time Since : </string>
+    <string name="hello_second_fragment">january 1</string>
     <string name="welcome_text">Hello, this is the welcome text</string>
 </resources>
