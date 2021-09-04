@@ -79,7 +79,7 @@ public class TimeSinceActivity extends AppCompatActivity {
                                         builder.setCancelable(false);
                                         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                                         builder.setView(input);
-                                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        builder.setPositiveButton("Enter", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 m_Text = input.getText().toString();
@@ -92,7 +92,7 @@ public class TimeSinceActivity extends AppCompatActivity {
                                                 }
                                             }
                                         });
-                                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                             }
@@ -101,6 +101,7 @@ public class TimeSinceActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+
                             builder.show();
                         }
                     }
