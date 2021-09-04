@@ -50,9 +50,6 @@ public class TimeSinceActivity extends AppCompatActivity {
         display_millis();
 
 
-
-
-
         bt_calculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,38 +60,52 @@ public class TimeSinceActivity extends AppCompatActivity {
 
                         if (!isFinishing()) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(TimeSinceActivity.this);
-                            final EditText input = new EditText(TimeSinceActivity.this);
-                            builder.setTitle("Entrer mot de passe");
-                            builder.setMessage("Fete maman yyyymmdd");
+                            builder.setTitle("Are you sure you want to reset?");
                             builder.setCancelable(false);
-                            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                            builder.setView(input);
-                            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    m_Text = input.getText().toString();
-                                    if (hash_date(m_Text).equals("349728029")) {
-                                        save_current_to_internal_storage(getApplicationContext());
-                                        Toast.makeText(getBaseContext(), "Reset", Toast.LENGTH_SHORT).show();
-                                        display_millis();
-                                    }
-                                }
-                            });
                             builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+                            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    if (!isFinishing()) {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(TimeSinceActivity.this);
+                                        final EditText input = new EditText(TimeSinceActivity.this);
+                                        builder.setTitle("Entrer mot de passe");
+                                        builder.setMessage("Fete maman yyyymmdd");
+                                        builder.setCancelable(false);
+                                        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                                        builder.setView(input);
+                                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                m_Text = input.getText().toString();
+                                                if (hash_date(m_Text).equals("349728029")) {
+                                                    save_current_to_internal_storage(getApplicationContext());
+                                                    Toast.makeText(getBaseContext(), "Reset to now", Toast.LENGTH_SHORT).show();
+                                                    display_millis();
+                                                } else {
+                                                    Toast.makeText(getBaseContext(), "Wrong password", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                            }
+                                        });
+                                        builder.show();
+                                    }
                                 }
                             });
                             builder.show();
                         }
                     }
                 });
-
-
-
-
             }
-
         });
     }
 
@@ -145,11 +156,11 @@ public class TimeSinceActivity extends AppCompatActivity {
         tv_result.setText(convert_milli_to_date(millis_to_display));
     }
 
-    private String hash_date(String str1){
+    private String hash_date(String str1) {
         int strlen = str1.length();
         int hash = 7;
         for (int i = 0; i < strlen; i++) {
-            hash = hash*31 + str1.charAt(i);
+            hash = hash * 31 + str1.charAt(i);
         }
         return String.valueOf(hash);
     }
