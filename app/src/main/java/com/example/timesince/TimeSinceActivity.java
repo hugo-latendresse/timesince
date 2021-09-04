@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,7 +22,7 @@ public class TimeSinceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        input1 = (EditText) findViewById(R.id.et_input1);
+        input1 = (TextView) findViewById(R.id.et_input1);
         input2 = (EditText) findViewById(R.id.et_input2);
         input3 = (EditText) findViewById(R.id.et_input3);
     Button bt_calculate = (Button) findViewById(R.id.bt_calculate);
@@ -37,26 +38,24 @@ public class TimeSinceActivity extends AppCompatActivity {
 }
 
     private void makeCalculations() {
-        // I'm assuming you're getting numbers.
-        double n1 = Double.valueOf(input1.getText().toString());
         double n2 = Double.valueOf(input2.getText().toString());
         double n3 = Double.valueOf(input3.getText().toString());
 
         // Do your calculation here.
         // I'm assuming you have inserted the result on a variable called 'result'. Like: double result
-        double result = n2-n1;
+        double result = n2-n3;
         tv_result.setText("The result is: " + result);
     }
 
-    // The rest of your Activity and methods.
+
+
+    private void setTodaysDate() {
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm");
+        Date date = new Date(System.currentTimeMillis());
+        String out;
+        out = "Produced" + (formatter).format(date);
+        input1.setText("Clean since: "+ out);
+//        System.out.println(formatter.format(date));
+    }
 
 }
-
-//    private void setTodaysDate() {
-//        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm");
-//        Date date = new Date(System.currentTimeMillis());
-//        String out;
-//        out = "Produced" + (formatter).format(date);
-//        input1.setText("Clean since: "+ out);
-////        System.out.println(formatter.format(date));
-//    }
