@@ -18,6 +18,7 @@ import java.util.Date;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static java.lang.String.valueOf;
 
 public class TimeSinceActivity extends AppCompatActivity {
     private TextView input1;
@@ -64,7 +65,7 @@ public class TimeSinceActivity extends AppCompatActivity {
 
 
     private void save_current_to_internal_storage(Context ctx){
-        String data="my info to save";
+        String data = valueOf(return_todays_milliseconds());
         try {
 
             FileOutputStream fOut = openFileOutput("somefile.txt", ctx.MODE_PRIVATE);
@@ -90,12 +91,13 @@ public class TimeSinceActivity extends AppCompatActivity {
             millis_to_display = Long.parseLong(temp);
         }
         catch(Exception e){
-            millis_to_display = return_todays_milliseconds();
+            millis_to_display = 0;
         }
     }
 
     private void display_millis(){
         set_millis_to_internal_storage();
+        input1.setText("Clean since " + convert_milli_to_date(millis_to_display));
         tv_result.setText(convert_milli_to_date(millis_to_display));
         Toast.makeText(getBaseContext(), "date displayed", Toast.LENGTH_SHORT).show();
     }
