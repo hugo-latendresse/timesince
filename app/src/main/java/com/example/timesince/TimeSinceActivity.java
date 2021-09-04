@@ -35,7 +35,7 @@ public class TimeSinceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE}, 1);
+        requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, 1);
 
         input1 = (TextView) findViewById(R.id.et_input1);
         input2 = (EditText) findViewById(R.id.et_input2);
@@ -46,34 +46,38 @@ public class TimeSinceActivity extends AppCompatActivity {
 
         display_millis();
 
+
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                if (!isFinishing()){
+                    new AlertDialog.Builder(TimeSinceActivity.this)
+                            .setTitle("Your Alert")
+                            .setMessage("Your Message")
+                            .setCancelable(false)
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Whatever...
+                                }
+                            }).show();
+                }
+            }
+        });
+
+
+
+
+
         bt_calculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            save_current_to_internal_storage(getApplicationContext());
-            display_millis();
-//            @Override
-//            public void onClick(View view) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-////            builder.setTitle(R.string.app_name);
-//                builder.setMessage("Do you really want to reset?");
-////            builder.setIcon(R.drawable.ic_launcher);
-//                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        dialog.dismiss();
-//                        save_current_to_internal_storage(getApplicationContext());
-//                        display_millis();
-//
-//                    }
-//                });
-//                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//                AlertDialog alert = builder.create();
-//                alert.show();
-
+                save_current_to_internal_storage(getApplicationContext());
+                display_millis();
             }
+
         });
     }
 
@@ -82,14 +86,14 @@ public class TimeSinceActivity extends AppCompatActivity {
         return System.currentTimeMillis();
     }
 
-    private String convert_milli_to_date(long milli){
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm");
+    private String convert_milli_to_date(long milli) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm");
         Date date = new Date(milli);
         return (formatter).format(date);
     }
 
 
-    private void save_current_to_internal_storage(Context ctx){
+    private void save_current_to_internal_storage(Context ctx) {
         String data = valueOf(return_todays_milliseconds());
         try {
 
@@ -97,30 +101,28 @@ public class TimeSinceActivity extends AppCompatActivity {
             fOut.write(data.getBytes());
             fOut.close();
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    private void set_millis_to_internal_storage(){
+    private void set_millis_to_internal_storage() {
         try {
             FileInputStream fin = openFileInput(MILLIS_FILENAME);
             int c;
-            String temp="";
+            String temp = "";
 
-            while( (c = fin.read()) != -1){
-                temp = temp + Character.toString((char)c);
+            while ((c = fin.read()) != -1) {
+                temp = temp + Character.toString((char) c);
             }
             millis_to_display = Long.parseLong(temp);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             millis_to_display = 0;
         }
     }
 
-    private void display_millis(){
+    private void display_millis() {
         set_millis_to_internal_storage();
         input1.setText("Clean since " + convert_milli_to_date(millis_to_display));
         tv_result.setText(convert_milli_to_date(millis_to_display));
