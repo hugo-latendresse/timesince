@@ -47,6 +47,8 @@ public class TimeSinceActivity extends AppCompatActivity {
         display_millis();
 
         bt_calculate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
             save_current_to_internal_storage(getApplicationContext());
             display_millis();
 //            @Override
@@ -70,8 +72,8 @@ public class TimeSinceActivity extends AppCompatActivity {
 //                });
 //                AlertDialog alert = builder.create();
 //                alert.show();
-//            }
 
+            }
         });
     }
 
