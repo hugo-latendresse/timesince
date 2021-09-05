@@ -1,146 +1,166 @@
 package com.example.timesince;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static java.lang.String.valueOf;
 
 public class TimeSinceActivity extends AppCompatActivity {
-    private TextView input1;
-    private EditText input2;
-    private EditText input3;
     private TextView tv_result;
+    private TextView tv_result2;
+    private long millis_to_display;
+    private String MILLIS_FILENAME = "millis_storage.txt";
+    private String m_Text = "";
+    private int m_int = 0;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE}, 1);
+        requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, 1);
 
-        input1 = (TextView) findViewById(R.id.et_input1);
-        input2 = (EditText) findViewById(R.id.et_input2);
-        input3 = (EditText) findViewById(R.id.et_input3);
         Button bt_calculate = (Button) findViewById(R.id.bt_calculate);
 
         tv_result = (TextView) findViewById(R.id.tv_result);
+        tv_result2 = (TextView) findViewById(R.id.tv_result2);
 
-        setTodaysDate();
+        display_millis();
+
 
         bt_calculate.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-//            makeCalculations();
-            save_to_internal_storage(getApplicationContext());
-            read_from_internal_storage();
-        }
+            @Override
+            public void onClick(View view) {
 
-    });
-}
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
 
-    private void makeCalculations() {
-        double n2 = Double.valueOf(input2.getText().toString());
-        double n3 = Double.valueOf(input3.getText().toString());
-        double result = n2-n3;
-        tv_result.setText("The result is: " + result);
+                        if (!isFinishing()) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(TimeSinceActivity.this);
+                            builder.setTitle("Are you sure you want to reset?");
+                            builder.setCancelable(false);
+                            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+                            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    if (!isFinishing()) {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(TimeSinceActivity.this);
+                                        final EditText input = new EditText(TimeSinceActivity.this);
+                                        builder.setTitle("Enter password");
+                                        builder.setMessage("Mom's Birthday YYYYMMDD");
+                                        builder.setCancelable(false);
+                                        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                                        builder.setView(input);
+                                        builder.setPositiveButton("Enter", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                m_Text = input.getText().toString();
+                                                if (hash_date(m_Text).equals("349728029")) {
+                                                    save_current_to_internal_storage(getApplicationContext());
+                                                    Toast.makeText(getBaseContext(), "Reset to now", Toast.LENGTH_SHORT).show();
+                                                    display_millis();
+                                                } else {
+                                                    Toast.makeText(getBaseContext(), "Wrong password", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                            }
+                                        });
+                                        builder.show();
+                                    }
+                                }
+                            });
+
+                            builder.show();
+                        }
+                    }
+                });
+            }
+        });
     }
 
-    private long return_todays_milliseconds(){
+
+    private long return_todays_milliseconds() {
         return System.currentTimeMillis();
     }
 
-    private String convert_milli_to_date(long milli){
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm");
+    private String convert_milli_to_date(long milli) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date(milli);
         return (formatter).format(date);
     }
 
-    private void setTodaysDate() {
-        input1.setText("Clean since: "+ convert_milli_to_date(return_todays_milliseconds()));
-    }
 
-
-
-
-
-
-//    private void resetDate(){
-//        homeScoreBytes[0] = (byte) homeScore;
-//        homeScoreBytes[1] = (byte) (homeScore >> 8);  //you can probably skip these two
-//        homeScoreBytes[2] = (byte) (homeScore >> 16); //lines, because I've never seen a
-//        //basketball score above 128, it's
-//        //such a rare occurance.
-//
-//        writeFileOnInternalStorage();
-//
-//        FileOutputStream outputStream = getApplicationContext().openFileOutput(FILENAME, Context.MODE_PRIVATE);
-//        outputStream.write(homeScoreBytes);
-//        outputStream.close();
-//    }
-
-
-    private void save_to_internal_storage(Context ctx){
-        String data="my info to save";
+    private void save_current_to_internal_storage(Context ctx) {
+        String data = valueOf(return_todays_milliseconds());
         try {
 
-            FileOutputStream fOut = openFileOutput("somefile.txt", ctx.MODE_PRIVATE);
+            FileOutputStream fOut = openFileOutput(MILLIS_FILENAME, ctx.MODE_PRIVATE);
             fOut.write(data.getBytes());
             fOut.close();
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    private void read_from_internal_storage(){
+    private void set_millis_to_internal_storage() {
         try {
-            FileInputStream fin = openFileInput("somefile.txt");
+            FileInputStream fin = openFileInput(MILLIS_FILENAME);
             int c;
-            String temp="";
+            String temp = "";
 
-            while( (c = fin.read()) != -1){
-                temp = temp + Character.toString((char)c);
+            while ((c = fin.read()) != -1) {
+                temp = temp + Character.toString((char) c);
             }
-            tv_result.setText(temp);
-            Toast.makeText(getBaseContext(), "file read", Toast.LENGTH_SHORT).show();
-        }
-        catch(Exception e){
+            millis_to_display = Long.parseLong(temp);
+        } catch (Exception e) {
+            millis_to_display = 0;
         }
     }
 
-//    public void writeFileOnInternalStorage(Context mcoContext, String sFileName, String sBody){
-//        File dir = new File(mcoContext.getFilesDir(), "mydir");
-//        if(!dir.exists()){
-//            dir.mkdir();
-//        }
-//
-//        try {
-//            File gpxfile = new File(dir, sFileName);
-//            FileWriter writer = new FileWriter(gpxfile);
-//            writer.append(sBody);
-//            writer.flush();
-//            writer.close();
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
+    private void display_millis() {
+        set_millis_to_internal_storage();
+        tv_result.setText(convert_milli_to_date(millis_to_display));
+        double difference_in_days = Math.floor((return_todays_milliseconds() - millis_to_display)/(24*3600*1000));
+        int diff = (int)difference_in_days;
+        tv_result2.setText(String.valueOf(diff) + " days");
+    }
 
+    private String hash_date(String str1) {
+        int strlen = str1.length();
+        int hash = 7;
+        for (int i = 0; i < strlen; i++) {
+            hash = hash * 31 + str1.charAt(i);
+        }
+        return String.valueOf(hash);
+    }
 }
