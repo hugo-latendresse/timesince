@@ -70,8 +70,8 @@ public class TimeSinceActivity extends AppCompatActivity {
                                     if (!isFinishing()) {
                                         AlertDialog.Builder builder = new AlertDialog.Builder(TimeSinceActivity.this);
                                         final EditText input = new EditText(TimeSinceActivity.this);
-                                        builder.setTitle("Entrer mot de passe");
-                                        builder.setMessage("Fete maman yyyymmdd");
+                                        builder.setTitle("Enter password");
+                                        builder.setMessage("Mom's Birthday YYYYMMDD");
                                         builder.setCancelable(false);
                                         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                                         builder.setView(input);
