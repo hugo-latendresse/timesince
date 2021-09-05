@@ -9,26 +9,17 @@
     <!--              android:paddingRight="@dimen/activity_horizontal_margin"-->
     <!--              android:paddingTop="@dimen/activity_vertical_margin"-->
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Calculation"
-            android:id="@+id/tv_title"
-            android:layout_gravity="center_horizontal"/>
-
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:id="@+id/top_message"/>
 
 
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Calculate"
-            android:id="@+id/bt_calculate"
-            android:layout_gravity="center_horizontal"/>
+<!--    <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text=""-->
+<!--            android:id="@+id/top_message" android:padding="10dp" android:paddingLeft="10dp" android:paddingTop="10dp"-->
+<!--            android:paddingRight="10dp" android:paddingBottom="10dp"/>-->
+
+
+
 
     <RelativeLayout
             android:layout_width="match_parent"
@@ -38,7 +29,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/tv_result"
+                android:text="Clean since"
+                android:id="@+id/tv_title"
+                android:padding="10dp" android:paddingLeft="10dp" android:paddingTop="10dp"
+                android:paddingRight="10dp" android:paddingBottom="10dp"
                 android:layout_centerInParent="true"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/tv_result"
+                android:layout_below="@+id/tv_title"
+                android:layout_centerInParent="true"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reset"
+                android:id="@+id/bt_calculate"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerInParent="true"
+                android:layout_below="@+id/tv_result"/>
     </RelativeLayout>
 </LinearLayout>

@@ -24,7 +24,6 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static java.lang.String.valueOf;
 
 public class TimeSinceActivity extends AppCompatActivity {
-    private TextView input1;
     private TextView tv_result;
     private long millis_to_display;
     private String MILLIS_FILENAME = "millis_storage.txt";
@@ -38,7 +37,6 @@ public class TimeSinceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, 1);
 
-        input1 = (TextView) findViewById(R.id.top_message);
         Button bt_calculate = (Button) findViewById(R.id.bt_calculate);
 
         tv_result = (TextView) findViewById(R.id.tv_result);
@@ -149,7 +147,6 @@ public class TimeSinceActivity extends AppCompatActivity {
 
     private void display_millis() {
         set_millis_to_internal_storage();
-        input1.setText("Clean since " + convert_milli_to_date(millis_to_display));
         tv_result.setText(convert_milli_to_date(millis_to_display));
     }
 
