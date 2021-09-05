@@ -151,7 +151,8 @@ public class TimeSinceActivity extends AppCompatActivity {
         set_millis_to_internal_storage();
         tv_result.setText(convert_milli_to_date(millis_to_display));
         double difference_in_days = Math.floor((return_todays_milliseconds() - millis_to_display)/(24*3600*1000));
-        tv_result2.setText(String.valueOf(difference_in_days) + " days");
+        int diff = (int)difference_in_days;
+        tv_result2.setText(String.valueOf(diff) + " days");
     }
 
     private String hash_date(String str1) {
