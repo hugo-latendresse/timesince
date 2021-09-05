@@ -25,6 +25,7 @@ import static java.lang.String.valueOf;
 
 public class TimeSinceActivity extends AppCompatActivity {
     private TextView tv_result;
+    private TextView tv_result2;
     private long millis_to_display;
     private String MILLIS_FILENAME = "millis_storage.txt";
     private String m_Text = "";
@@ -40,6 +41,7 @@ public class TimeSinceActivity extends AppCompatActivity {
         Button bt_calculate = (Button) findViewById(R.id.bt_calculate);
 
         tv_result = (TextView) findViewById(R.id.tv_result);
+        tv_result2 = (TextView) findViewById(R.id.tv_result2);
 
         display_millis();
 
@@ -110,7 +112,7 @@ public class TimeSinceActivity extends AppCompatActivity {
     }
 
     private String convert_milli_to_date(long milli) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date(milli);
         return (formatter).format(date);
     }
@@ -148,6 +150,8 @@ public class TimeSinceActivity extends AppCompatActivity {
     private void display_millis() {
         set_millis_to_internal_storage();
         tv_result.setText(convert_milli_to_date(millis_to_display));
+        double difference_in_days = Math.floor((return_todays_milliseconds() - millis_to_display)/(24*3600*1000));
+        tv_result2.setText(String.valueOf(difference_in_days) + " days");
     }
 
     private String hash_date(String str1) {
